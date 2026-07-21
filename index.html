@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dicky Ardiansyah — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  :root {
+    --bg-base: #0f172a; /* Slate 900 */
+    --bg-surface: #1e293b; /* Slate 800 */
+    --bg-card: #334155; /* Slate 700 */
+    
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --accent-primary: #10b981; /* Emerald Green */
+    --accent-secondary: #f59e0b; /* Amber */
+    
+    --font-sans: 'Outfit', sans-serif;      
+    --font-mono: 'Fira Code', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { 
+    font-family: var(--font-sans); 
+    background-color: var(--bg-base); 
+    color: var(--text-main); 
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* CUSTOM SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-base); }
+  ::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+
+  /* FLOATING PILL HEADER */
+  header {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: rgba(30, 41, 59, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none; color: var(--text-main);
+    font-size: 0.9rem; font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--accent-primary); }
+
+  /* LAYOUT CONTAINERS */
+  section { padding: 5rem 2rem 3rem; max-width: 1100px; margin: 0 auto; }
+  
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent-primary), transparent);
+  }
+
+  /* ABOUT SECTION (HERO) */
+  #about {
+    padding-top: 10rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .hero-mono {
+    font-family: var(--font-mono);
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+  .hero-title {
+    font-size: clamp(1.2rem, 3.2vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    white-space: nowrap; 
+  }
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+  .hero-subtitle .divider {
+    color: var(--bg-card);
+    margin: 0 0.5rem;
+    font-weight: 300;
+  }
+  .hero-desc {
+    max-width: 800px;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  
+  /* CAPSULES */
+  .capsule-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .capsule {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--accent-primary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .capsule.hoverable {
+    transition: all 0.3s ease;
+  }
+  .capsule.hoverable:hover {
+    background: rgba(16, 185, 129, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+  }
+
+  /* PROJECT CARDS & GALLERIES */
+  .project-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--bg-card);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 4rem;
+  }
+  .project-card h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    color: var(--text-main);
+  }
+  .project-card ul {
+    color: var(--text-muted);
+    padding-left: 1.2rem;
+    margin-bottom: 0;
+  }
+  .project-card li { margin-bottom: 0.5rem; font-size: 0.95rem; }
+
+  .gallery-section { margin-top: 2.5rem; }
+  .gallery-title {
+    font-family: var(--font-mono);
+    color: var(--accent-secondary);
+    font-size: 0.9rem;
+    margin: 1.5rem 0 1rem;
+    border-bottom: 1px dashed var(--bg-card);
+    padding-bottom: 0.5rem;
+  }
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .img-box {
+    position: relative;
+    background: var(--bg-base);
+    border: 1px solid var(--bg-card);
+    border-radius: 8px;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-box span {
+    position: absolute;
+    color: rgba(148, 163, 184, 0.7);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 1rem;
+    z-index: 1;
+  }
+  .img-box img {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+  }
+  .img-box:hover img {
+    transform: scale(1.05);
+  }
+
+  .img-box.horizontal {
+    aspect-ratio: 16/9;
+  }
+
+  .img-box.vertical {
+    aspect-ratio: 9/16;
+    max-width: 260px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .img-box.square {
+    aspect-ratio: 1/1;
+    max-width: 350px;
+    margin: 0 auto;
+    width: 100%; 
+  }
+
+  /* SKILLS & CERTS GRID */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  
+  .cert-list { list-style: none; }
+  .cert-list li {
+    background: var(--bg-surface);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border-left: 2px solid var(--accent-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cert-list span { font-family: var(--font-mono); color: var(--text-muted); font-size: 0.9rem; }
+  
+  /* CSS UNTUK LINK SERTIFIKAT */
+  .cert-list a {
+    color: var(--text-main);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .cert-list a:hover {
+    color: var(--accent-primary);
+  }
+
+  .skills-container { display: flex; flex-wrap: wrap; gap: 1rem; }
+  .skill-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--bg-card);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  .skill-item:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-3px);
+  }
+
+  /* FOOTER & CONTACT */
+  footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--bg-card);
+    margin-top: 4rem;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  .contact-links a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-family: var(--font-mono);
+    border-bottom: 1px dashed var(--accent-primary);
+    padding-bottom: 0.2rem;
+  }
+  .contact-links a:hover { color: var(--accent-primary); }
+
+  @media (max-width: 900px) {
+    .grid-2 { grid-template-columns: 1fr; gap: 3rem; }
+  }
+  @media (max-width: 768px) {
+    header { width: 90%; padding: 0.75rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 0.8rem; }
+    .project-card { padding: 1.5rem; }
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .grid-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .grid-2-center {
+    display: grid;
+    grid-template-columns: repeat(2, 260px); 
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .grid-2-center {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills & Certs</a></li>
+  </ul>
+</header>
+
+<!-- ABOUT SECTION -->
+<section id="about">
+  <div class="hero-mono">&gt; Hi, I am</div>
+  <h1 class="hero-title">Dicky Ardiansyah Pramana Putra.</h1>
+  <h2 class="hero-subtitle">IoT Firmware Engineer <span class="divider">|</span> Hardware-Software Integrations</h2>
+  
+  <p class="hero-desc">
+    A highly motivated fresh graduate with a Bachelor of Applied Science in Internet Engineering Technology from Universitas Gadjah Mada. Passionate about developing Internet of Things (IoT) solutions, with solid expertise in embedded systems and system integration.
+  </p>
+
+  <div class="capsule-group">
+    <div class="capsule">GPA: 3.68/4.00</div>
+    <a href="https://github.com/ardiansyahdicky" target="_blank" class="capsule hoverable">GitHub Profile</a>
+  </div>
+</section>
+
+<!-- PROJECTS SECTION -->
+<section id="projects">
+  <h2 class="section-title">Featured Projects</h2>
+
+  <!-- Project 1 -->
+  <div class="project-card">
+    <h3>Automatic Fish Feeder Prototype</h3>
+    <ul>
+      <li>An IoT-based automatic fish feeding system that ensures accurate feeding schedules (with offline support) and real-time water condition monitoring via a web dashboard.</li>
+      <li>Utilized Node-RED for backend logic and the MQTT protocol for lightweight and stable real-time data transmission.</li>
+      <li>The core hardware features a Wemos D1 R1 (ESP8266), an RTC module for accurate offline scheduling, Ultrasonic and DS18B20 sensors, and a Servo Motor.</li>
+    </ul>
+
+    <div class="gallery-section">
+      <div class="gallery-title">// Software Implementation</div>
+      <div class="image-grid">
+        <div class="img-box"><span>Software 1</span><img src="Image/fish-feeder-software-implementation-1.png" alt="Software Implementation 1" onerror="this.style.display='none'"></div>
+        <div class="img-box"><span>Software 2</span><img src="Image/fish-feeder-software-implementation-2.png" alt="Software Implementation 2" onerror="this.style.display='none'"></div>
+      </div>
+
+    <div class="gallery-title">// Hardware Schematic</div>
+      <div class="image-grid" style="display: flex; justify-content: center;">
+        <div class="img-box horizontal no-crop" style="width: 100%; max-width: 600px;">
+          <img src="Image/fish-feeder-hardware-design.png" alt="Hardware Schematic" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <div class="gallery-title">// Documentation</div>
+      <div class="image-grid">
+        <div class="img-box vertical"><span>Documentation 1</span><img src="Image/fish-feeder-documentation-1.png" alt="Documentation 1" onerror="this.style.display='none'"></div>
+        <div class="img-box vertical"><span>Documentation 2</span><img src="Image/fish-feeder-documentation-2.png" alt="Documentation 2" onerror="this.style.display='none'"></div>
+        <div class="img-box vertical"><span>Documentation 3</span><img src="Image/fish-feeder-documentation-3.png" alt="Documentation 3" onerror="this.style.display='none'"></div>
+        <div class="img-box vertical"><span>Documentation 4</span><img src="Image/fish-feeder-documentation-4.png" alt="Documentation 4" onerror="this.style.display='none'"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 2 -->
+  <div class="project-card">
+    <h3>Wise Bin Capacity Optimization (WISEBIN.CO)</h3>
+    <ul>
+      <li>A smart waste management system that integrates hardware (automatic lid & capacity sensor) with a mobile application to streamline waste collection efficiency.</li>
+      <li>Leveraged Firebase Realtime Database for sensor data synchronization, with the mobile application built using the Flutter cross-platform framework.</li>
+      <li>Controlled by a NodeMCU ESP8266 equipped with Dual Ultrasonic sensors, a Servo Motor, an LCD Display, and a DFPlayer Mini for voice alerts.</li>
+    </ul>
+
+  <div class="gallery-section">
+      <div class="gallery-title">// Mobile Application</div>
+      
+      <div class="image-grid" style="display: flex; justify-content: center;">
+        <div class="img-box">
+          <img src="Image/wisebin-mobile-app.png" alt="Mobile Application" onerror="this.style.display='none'">
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-title">// Hardware Schematic</div>
+      <div class="image-grid" style="display: flex; justify-content: center;">
+        <div class="img-box horizontal no-crop" style="width: 100%; max-width: 600px;">
+          <img src="Image/wisebin-hardware-design.png" alt="Hardware Schematic" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <div class="gallery-title">// Tool Appearance</div>
+      <div class="image-grid">
+        <div class="img-box vertical"><span>Appearance 1</span><img src="Image/wisebin-tool-appearance-1.png" alt="Tool Appearance 1" onerror="this.style.display='none'"></div>
+        <div class="img-box vertical"><span>Appearance 2</span><img src="Image/wisebin-tool-appearance-2.png" alt="Tool Appearance 2" onerror="this.style.display='none'"></div>
+        <div class="img-box vertical"><span>Appearance 3</span><img src="Image/wisebin-tool-appearance-3.png" alt="Tool Appearance 3" onerror="this.style.display='none'"></div>
+      </div>
+
+      <div class="gallery-title">// Documentation</div>
+      <div class="image-grid grid-3">
+        <div class="img-box horizontal"><span>Documentation 1</span><img src="Image/wisebin-documentation-1.png" alt="Documentation 1" onerror="this.style.display='none'"></div>
+        <div class="img-box horizontal"><span>Documentation 2</span><img src="Image/wisebin-documentation-2.png" alt="Documentation 2" onerror="this.style.display='none'"></div>
+        <div class="img-box horizontal"><span>Documentation 3</span><img src="Image/wisebin-documentation-3.png" alt="Documentation 3" onerror="this.style.display='none'"></div>
+        <div class="img-box horizontal"><span>Documentation 4</span><img src="Image/wisebin-documentation-4.png" alt="Documentation 4" onerror="this.style.display='none'"></div>
+        <div class="img-box horizontal"><span>Documentation 5</span><img src="Image/wisebin-documentation-5.png" alt="Documentation 5" onerror="this.style.display='none'"></div>
+        <div class="img-box horizontal"><span>Documentation 6</span><img src="Image/wisebin-documentation-6.png" alt="Documentation 6" onerror="this.style.display='none'"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 3 -->
+  <div class="project-card">
+    <h3>Smart Budikdamber</h3>
+    <ul>
+      <li>An integrated fish farming management system (Budikdamber) that automates feeding and water changes to independently maintain water quality.</li>
+      <li>The Android application was developed using MIT App Inventor, integrated with Firebase Realtime DB to control water draining/filling and RTC-based smart feeding schedules.</li>
+      <li>Based on the Wemos D1 R1 (ESP8266) with Servo Motor and Solenoid/Pump actuators, complemented by a local interface using an LCD and Keypad for manual adjustments.</li>
+    </ul>
+
+    <div class="gallery-section">
+      <div class="gallery-title">// Mobile Application</div>
+      <div class="image-grid">
+        <div class="img-box vertical"><span>Mobile App</span><img src="Image/smart-budikdamber-mobile-app.png" alt="Mobile Application" onerror="this.style.display='none'"></div>
+      </div>
+
+      <div class="gallery-title">// Hardware Implementation</div>
+      <div class="image-grid">
+        <div class="img-box vertical no-crop"><span>Hardware Implementation</span><img src="Image/smart-budikdamber-hardware-implementation.png" alt="Hardware Implementation" onerror="this.style.display='none'"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 4 -->
+  <div class="project-card">
+    <h3>Smart Enviro-Alert System Prototype</h3>
+    <ul>
+      <li>Designed as an Early Warning System (EWS) for sensitive areas like Server Rooms or Medical Storage to prevent damages caused by overheating.</li>
+      <li>Implemented an automated threshold-based algorithm to trigger Visual and Audio alarms (LED and Buzzer) if simulator values exceed safe limits.</li>
+      <li>The core hardware utilizes a Wemos D1 R1 (ESP8266), visualized through a Blynk Dashboard for real-time graphical monitoring.</li>
+    </ul>
+
+    <div class="gallery-section">
+      <div class="gallery-title">// Documentation</div>
+      <div class="image-grid">
+        <div class="img-box vertical"><span>Documentation</span><img src="Image/smart-enviroalert.png" alt="Documentation" onerror="this.style.display='none'"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 5 -->
+  <div class="project-card">
+    <h3>Smart Home Sensor Hub Prototype</h3>
+    <ul>
+      <li>A centralized home automation hub that allows users to monitor room conditions and control electrical appliances remotely via a custom Android app.</li>
+      <li>The mobile interface was built using a Rapid Prototyping method via MIT App Inventor and a Visual Block Programming paradigm to structure modular algorithms.</li>
+      <li>The system operates bi-directionally (reading sensors and writing to actuators) with low latency through Wi-Fi and Firebase integration.</li>
+    </ul>
+
+    <div class="gallery-section">
+      <div class="gallery-title">// Mobile Application</div>
+      <div class="image-grid">
+        <div class="img-box vertical"><span>Mobile App</span><img src="Image/smarthome-sensorhub-1.png" alt="Mobile Application" onerror="this.style.display='none'"></div>
+      </div>
+
+    <div class="gallery-title">// Documentation</div>
+      
+      <!-- Cukup gunakan class baru ini -->
+      <div class="grid-2-center">
+        
+        <div class="img-box vertical">
+          <span>Documentation 1</span>
+          <img src="Image/smarthome-sensorhub-2.png" alt="Documentation 1" onerror="this.style.display='none'">
+        </div>
+        
+        <div class="img-box vertical">
+          <span>Documentation 2</span>
+          <img src="Image/smarthome-sensorhub-3.png" alt="Documentation 2" onerror="this.style.display='none'">
+        </div>
+    </div>
+   </div>
+  </div>
+
+  <!-- Project 6 -->
+  <div class="project-card">
+    <h3>Mini SCADA: Room and Security System</h3>
+    <ul>
+      <li>Adapted the industrial SCADA (Supervisory Control And Data Acquisition) concept to centrally monitor air quality and door security across two different rooms.</li>
+      <li>Utilized Grafana Cloud for analytical dashboards, InfluxDB Cloud for time-series databases, Google Sheets for data logging, and a Telegram Bot for remote control and alerts.</li>
+      <li>Based on the NodeMCU ESP8266 expanded with an ADS1115 ADC module to simultaneously read MQ-2, MQ-135, and DHT11 sensors with high precision.</li>
+    </ul>
+
+    <div class="gallery-section">
+      <div class="gallery-title">// Data and Control Stack</div>
+      <div class="image-grid">
+        <div class="img-box"><span>Data/Control 1</span><img src="Image/miniscada-datacontrol-1.png" alt="Data and Control Stack 1" onerror="this.style.display='none'"></div>
+        <div class="img-box vertical"><span>Data/Control 2</span><img src="Image/miniscada-datacontrol-2.png" alt="Data and Control Stack 2" onerror="this.style.display='none'"></div>
+      </div>
+
+      <div class="gallery-title">// Hardware Specification & Deployment</div>
+      <div class="image-grid">
+        <div class="img-box"><span>Hardware 1</span><img src="Image/miniscada-hardware-spec-and-deploy-1.png" alt="Hardware Deployment 1" onerror="this.style.display='none'"></div>
+        <div class="img-box"><span>Hardware 2</span><img src="Image/miniscada-hardware-spec-and-deploy-2.png" alt="Hardware Deployment 2" onerror="this.style.display='none'"></div>
+        <div class="img-box"><span>Hardware 3</span><img src="Image/miniscada-hardware-spec-and-deploy-3.png" alt="Hardware Deployment 3" onerror="this.style.display='none'"></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- SKILLS & CERTS SECTION -->
+<section id="skills">
+  <h2 class="section-title">Technical Skills</h2>
+  
+  <div class="grid-2">
+    <!-- Skills -->
+    <div>
+      <h3 style="margin-bottom: 1.5rem; font-family: var(--font-mono); color: var(--accent-secondary);">// Core Skills</h3>
+      <div class="skills-container">
+        <div class="skill-item">Internet of Things (IoT) & Embedded Systems</div>
+        <div class="skill-item">Computer Networks & System Integration</div>
+        <div class="skill-item">Mobile App Development & UI Design</div>
+        <div class="skill-item">C++ Arduino IDE</div>
+        <div class="skill-item">MikroTik, MQTT, HTTP API</div>
+        <div class="skill-item">Node-RED, Blynk, Firebase</div>
+        <div class="skill-item">MIT App Inventor</div>
+        <div class="skill-item">Proteus, Canva, Tinkercad</div>
+        <div class="skill-item">Arduino, Wemos D1 R1, NodeMCU ESP8266</div>
+      </div>
+    </div>
+
+    <!-- Certifications -->
+    <div>
+      <h3 style="margin-bottom: 1.5rem; font-family: var(--font-mono); color: var(--accent-secondary);">// Certifications & Courses</h3>
+      <ul class="cert-list">
+        <li>
+          <div><a href="https://drive.google.com/file/d/1JOm8Eo5IW9uuJAo0ESF6CSI4ADrdSR2E/view?usp=drive_link" target="_blank">MikroTik Certified Network Associate</a></div>
+          <span>2025</span>
+        </li>
+        <li>
+          <div><a href="https://drive.google.com/file/d/1cDuXP52c_1y0d9jEMngJMyX7lMVm-GQq/view?usp=drive_link" target="_blank">Alibaba Cloud - Next Gen Chatbots</a></div>
+          <span>2025</span>
+        </li>
+        <li>
+          <div><a href="https://drive.google.com/file/d/1-7IZljsgfptG_WB2Sr0XmRZxXZYhQsR4/view?usp=drive_link" target="_blank">IoT Engineer Camp (Firmware Engineer)</a></div>
+          <span>2024</span>
+        </li>
+        <li>
+          <div><a href="https://drive.google.com/file/d/1osdz-xfNdQ288dT0X9JfiJqBeJY4KOGB/view?usp=drive_link" target="_blank">Data Series Fair 4.0 - Data Engineer</a></div>
+          <span>2024</span>
+        </li>
+        <li>
+          <div><a href="https://drive.google.com/file/d/1Wsjgd--maEePA81OHv3YdtN7-3F3BykY/view?usp=drive_link" target="_blank">IoT Fundamentals - Connecting Things</a></div>
+          <span>2023</span>
+        </li>
+        <li>
+          <div><a href="https://drive.google.com/file/d/1gh6T6atsVWYQ1QmQqTeXj15MuOGhnAUE/view?usp=drive_link" target="_blank">CCNAv7 - Introduction to Networks</a></div>
+          <span>2022</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <h2 style="font-size: 2rem; margin-bottom: 1rem;">Let's Build Something.</h2>
+  <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
+    Currently based in Bantul, D. I. Yogyakarta. Open for new opportunities in IoT and Embedded Systems engineering.
+  </p>
+  
+  <div class="contact-links">
+    <a href="mailto:dicky.ardiansyah.pramana.putra@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/dickyardiansyahpp/" target="_blank">LinkedIn</a>
+    <a href="https://github.com/ardiansyahdicky" target="_blank">GitHub</a>
+    <a href="tel:0895414027953">+62 895-4140-27953</a>
+  </div>
+  
+  <p style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--bg-card); margin-top: 3rem;">
+    &copy; 2026 Dicky Ardiansyah Pramana Putra. All rights reserved.
+  </p>
+</footer>
+
+</body>
+</html>
